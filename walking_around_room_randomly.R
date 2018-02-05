@@ -6,28 +6,43 @@
 # Date Created: February 4, 2018
 # -----------------------------------------------------------------------------
 
-
-# Define area, starting position, number of steps to take, and directions
+# Define area, starting loc, number of steps to take, and directions
 area = c(10, 10)
 start = c(0, 0)
-steps = 10
-directions = c("N", "S", "E", "W")
+steps = 100
+directions = c("N", "S", "E", "W", "NW", "NE", "SW", "SE")
 
-# Initialize position and path variables
-position = start
-path = data.frame(x = start[1], y = start[2])
+# Initialize loc and path variables
+loc = data.frame(x = start[1], y = start[2])
 
 for (step in 1:steps) {
-  
-  # Take a step
-  # direction = sample(directions, 1, replace = TRUE); direction
-  direction = "N"
+  direction = sample(directions, 1, replace = TRUE); direction
   if (direction == "N") {
-    position = position + c(0, 1)
-    rbind(path, position)
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)], 
+                                y = loc$y[length(loc$y)] + 1))
+  } else if (direction == "S") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)], 
+                                y = loc$y[length(loc$y)] - 1))
+  } else if (direction == "E") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] + 1, 
+                                y = loc$y[length(loc$y)]))
+  } else if (direction == "W") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] - 1, 
+                                y = loc$y[length(loc$y)]))
+  } else if (direction == "NW") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] - 1, 
+                                y = loc$y[length(loc$y)] + 1))
+  } else if (direction == "NE") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] + 1, 
+                                y = loc$y[length(loc$y)] + 1))
+  } else if (direction == "SW") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] - 1, 
+                                y = loc$y[length(loc$y)] - 1))
+  } else if (direction == "SE") {
+    loc = rbind(loc, data.frame(x = loc$x[length(loc$x)] + 1, 
+                                y = loc$y[length(loc$y)] - 1))
   }
-  
 }
 
 # Plot path
-plot(path[[]][1], path[[]][2])
+plot(loc$x, loc$y, type = "l")
